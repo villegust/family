@@ -1,8 +1,17 @@
-import Footer from "@/components/footer";
-import Header from "@/components/header";
-import LandingPage from "@/components/landingPage";
+"use client";
+
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import LandingPage from "@/components/LandingPage";
+import { signOut } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function Home() {
+  useEffect(() => {
+    signOut({
+      redirect: false,
+    });
+  }, []);
   return (
     <>
       <main className="flex flex-col items-center overflow-x-hidden z-10">

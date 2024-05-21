@@ -1,10 +1,11 @@
-import { UserButton } from "@clerk/nextjs";
+"use client";
 
-import { auth } from "@clerk/nextjs/server";
+import { signOut } from "next-auth/react";
 
-const Header = () => {
-  const { userId } = auth();
-
+const Header = ({ session }: any) => {
+  const signout = () => {
+    signOut({ callbackUrl: "/" });
+  };
   return (
     <>
       <header className="bg-white shadow-lg h-24 w-screen hidden md:flex justify-between fixed inset-0">
@@ -18,18 +19,23 @@ const Header = () => {
             alt=""
           />
         </a>
+
         <div className="border flex items-center px-4 lg:px-6 xl:px-8">
-          {!userId && (
-            <>
-              <a
-                className="bg-blue-500 hover:bg-blue-700 text-white font-medium px-4 xl:px-6 py-2 xl:py-3 rounded-xl mr-2"
-                href="/sign-in"
-              >
-                Get Started
-              </a>
-            </>
+          {session ? (
+            <button
+              className="bg-red-500 hover:bg-red-700 text-white font-medium px-4 xl:px-6 py-2 xl:py-3 rounded-xl mr-2"
+              onClick={signout}
+            >
+              Sign Out
+            </button>
+          ) : (
+            <a
+              className="bg-blue-500 hover:bg-blue-700 text-white font-medium px-4 xl:px-6 py-2 xl:py-3 rounded-xl mr-2"
+              href="/login"
+            >
+              Get Started
+            </a>
           )}
-          <UserButton signInUrl="/" />
         </div>
       </header>
     </>
