@@ -21,7 +21,7 @@ export const authOptions: AuthOptions = {
         if (!credentials?.password) {
           throw new Error("Missing password!");
         }
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findUnique({
           where: {
             email: credentials.email,
           },
@@ -36,11 +36,12 @@ export const authOptions: AuthOptions = {
         if (!correctPassword) {
           throw new Error("Incorrect password!");
         }
-        return {
-          id: user.id + "",
-          email: user.email,
-          name: user.name,
-        };
+        return user;
+        // return {
+        //   id: user.id + "",
+        //   email: user.email,
+        //   name: user.name,
+        // };
       },
     }),
   ],

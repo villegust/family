@@ -1,3 +1,4 @@
+import { getUserByEmail } from "@/data/user";
 import prisma from "@/libs/prismadb";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
@@ -16,9 +17,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Missing data" }, { status: 400 });
     }
 
-    const userAlreadyExist = await prisma.user.findFirst({
-      where: { email: email },
-    });
+    const userAlreadyExist = await getUserByEmail(email);
 
     if (userAlreadyExist?.id) {
       return NextResponse.json(
